@@ -1,3 +1,5 @@
+import { Types } from "mongoose";
+
 import { UserModel } from "../models/UserModel.js";
 import { TokenModel } from "../models/TokenModel.js";
 import UserDto from "../dtos/UserDto.js";
@@ -5,15 +7,21 @@ import ApiError from "../exceptions/ApiError.js";
 
 class UserService {
   async getUsers(filter) {
-    const { _id, projectId } = filter;
-    if (_id && projectId) throw ApiError.BadRequestError("Incompatible parameters");
+    const { _id, usersIds } = filter;
+    if (_id && usersIds) throw ApiError.BadRequestError("Incompatible parameters");
 
     if (_id) {
       const user = await UserModel.findById(_id);
       return new UserDto(user);
     }
+    if (usersIds) {
+      const users = await UserModel.find({
+        _id: { $in: usersIds.split(",").map((id) => new Types.ObjectId(id.trim())) },
+      });
+      return users.map((user) => new UserDto(user));
+    }
 
-    const users = await UserModel.find({ projectId });
+    const users = await UserModel.find();
     return users.map((user) => new UserDto(user));
   }
 
