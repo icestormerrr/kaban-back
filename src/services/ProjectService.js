@@ -4,15 +4,15 @@ import ApiError from "../exceptions/ApiError.js";
 
 class ProjectService {
   async getProjects(filter) {
-    const { _id, _idsArray } = filter;
-    if (_id && _idsArray) throw ApiError.BadRequestError("Incompatible parameters");
+    const { _id, userId } = filter;
+    if (_id && userId) throw ApiError.BadRequestError("Incompatible parameters");
 
     if (_id) {
       const project = await ProjectModel.findById(_id);
       return project;
     }
-    if (_idsArray) {
-      const projects = await ProjectModel.find({ _id: { $in: _idsArray } });
+    if (userId) {
+      const projects = await ProjectModel.find({ users: userId });
       return projects.map((project) => new ProjectIdNameDto(project));
     }
     const projects = await ProjectModel.find();
