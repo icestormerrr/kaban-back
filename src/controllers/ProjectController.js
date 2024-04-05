@@ -1,55 +1,40 @@
-import { ProjectModel } from "../models/ProjectModel.js";
-
-const projectConstructor = (object) => {
-  return {
-    name: object.name,
-    epics: object.epics,
-    sprints: object.sprints,
-    stages: object.stages,
-    users: object.users,
-    author: object.author,
-  };
-};
-
+import { projectService } from "../services/ProjectService.js";
 class ProjectController {
   async getProjects(req, res, next) {
     try {
-      const _id = req.query._id;
-      if (_id) {
-        const project = await ProjectModel.findById(_id);
-        res.json(project);
-      } else {
-        const projects = await ProjectModel.find();
-        res.json(projects.map(({ _id, name }) => ({ _id, name })));
-      }
+      const projects = await projectService.getProjects(req.query);
+      return res.json(projects);
     } catch (err) {
       next(err);
     }
   }
 
-  // not tested
-  async createProject(req, res) {
-    const project = new ProjectModel(projectConstructor(req.body));
+  // TODO: add validation
+  async createProject(req, res, next) {
     try {
-      await project.save();
-      res.status(201);
+      const project = await projectService.createProject(req.body);
+      return res.json(project);
     } catch (err) {
-      res.status(400).json({ message: err.message });
+      next(err);
     }
   }
 
-  // not tested
-  async deleteProject(req, res) {
+  // TODO: add validation
+  async updateProject(req, res, next) {
     try {
-      const project = await ProjectModel.findById(req.params._id);
-      if (project) {
-        await project.deleteOne({ _id: req.params.id });
-        res.status(204).json({ message: "Project successfully deleted" });
-      } else {
-        res.status(404).json({ message: "Project is not found" });
-      }
+      const project = await projectService.updateProject(req.body);
+      return res.json(project);
     } catch (err) {
-      res.status(500).json({ message: err.message });
+      next(err);
+    }
+  }
+
+  async deleteProject(req, res, next) {
+    try {
+      const deleteInfo = await projectService.deleteProject(req.query._id);
+      return res.json(deleteInfo);
+    } catch (err) {
+      next(err);
     }
   }
 }

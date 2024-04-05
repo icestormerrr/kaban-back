@@ -9,4 +9,6 @@ projectRouter.get("/", authMiddleware, projectController.getProjects);
 
 projectRouter.post("/", authMiddleware, projectController.createProject);
 
-projectRouter.delete("/:id", authMiddleware, projectController.deleteProject);
+projectRouter.put("/", authMiddleware, projectController.updateProject);
+
+projectRouter.delete("/", authMiddleware, projectController.deleteProject);

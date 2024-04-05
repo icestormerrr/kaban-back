@@ -10,7 +10,6 @@ class UserController {
     }
   }
 
-  // not tested
   async deleteUser(req, res, next) {
     try {
       const deleteInfo = await userService.deleteUser(req.query._id);

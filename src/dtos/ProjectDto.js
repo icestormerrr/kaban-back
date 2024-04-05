@@ -14,3 +14,12 @@ export class ProjectDto {
     this.author = model.author;
   }
 }
+
+export class ProjectIdNameDto {
+  _id;
+  name;
+  constructor(model) {
+    this._id = model._id;
+    this.name = model.name;
+  }
+}
