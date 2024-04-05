@@ -1,0 +1,16 @@
+.gitlab
+.vscode
+gen
+nginx
+node_modules
+public
+scripts
+.husky
+*.json
+*.lock
+.prettierignore
+.gitignore
+.gitmodules
+*.md
+*.yml
+*.svg
