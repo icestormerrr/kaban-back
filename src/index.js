@@ -6,7 +6,6 @@ import { configDotenv } from "dotenv";
 
 import { connectDb } from "./config/db.js";
 import { errorMiddleware } from "./middlewares/errorMiddleware.js";
-// import { authMiddleware } from "./middlewares/authMiddleware.js";
 
 import { taskRouter } from "./routers/taskRouter.js";
 import { userRouter } from "./routers/userRouter.js";

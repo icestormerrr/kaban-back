@@ -1,34 +1,22 @@
-import { UserModel } from "../models/UserModel.js";
+import { userService } from "../services/UserService.js";
 
 class UserController {
-  async getUsers(req, res) {
+  async getUsers(req, res, next) {
     try {
-      const _id = req.query._id;
-
-      if (_id) {
-        const user = await UserModel.findById(_id);
-        res.json({ _id: user._id, name: user.name });
-      } else {
-        const users = await UserModel.find();
-        res.json(users.map((user) => ({ _id: user._id, name: user.name })));
-      }
+      const users = await userService.getUsers(req.query);
+      return res.json(users);
     } catch (err) {
-      res.status(500).json({ message: err.message });
+      next(err);
     }
   }
 
   // not tested
-  async deleteUser(req, res) {
+  async deleteUser(req, res, next) {
     try {
-      const user = await UserModel.findById(req.params._id);
-      if (user) {
-        await user.deleteOne({ _id: req.params.id });
-        res.status(204).json({ message: "User successfully deleted" });
-      } else {
-        res.status(404).json({ message: "User is not found" });
-      }
+      const deleteInfo = await userService.deleteUser(req.query._id);
+      return res.json(deleteInfo);
     } catch (err) {
-      res.status(500).json({ message: err.message });
+      next(err);
     }
   }
 }

@@ -7,4 +7,4 @@ export const userRouter = express.Router();
 
 userRouter.get("/", authMiddleware, userController.getUsers);
 
-userRouter.delete("/:id", authMiddleware, userController.deleteUser);
+userRouter.delete("/", authMiddleware, userController.deleteUser);
