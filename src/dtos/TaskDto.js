@@ -1,4 +1,5 @@
 export class TaskDto {
+  _id;
   name;
   description;
   epicId;
@@ -9,6 +10,7 @@ export class TaskDto {
   status;
   comments;
   constructor(model) {
+    this._id = model._id;
     this.name = model.name;
     this.description = model.description;
     this.epicId = model.epicId;
@@ -22,6 +24,7 @@ export class TaskDto {
 }
 
 export class TaskShortDto {
+  _id;
   name;
   epicId;
   sprintId;
@@ -29,6 +32,7 @@ export class TaskShortDto {
   executorId;
   status;
   constructor(model) {
+    this._id = model._id;
     this.name = model.name;
     this.epicId = model.epicId;
     this.sprintId = model.sprintId;
