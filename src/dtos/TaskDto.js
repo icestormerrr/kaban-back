@@ -7,6 +7,7 @@ export class TaskDto {
   stageId;
   executorId;
   authorId;
+  projectId;
   status;
   comments;
   constructor(model) {
@@ -18,6 +19,7 @@ export class TaskDto {
     this.stageId = model.stageId;
     this.executorId = model.executorId;
     this.authorId = model.authorId;
+    this.projectId = model.projectId;
     this.status = Number(model.status);
     this.comments = model.comments;
   }

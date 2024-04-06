@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
 
 export const taskSchema = new Schema({
-  id: { type: String, required: true },
+  id: { type: String },
   name: { type: String, required: true },
   description: { type: String, required: true },
   epicId: { type: String, required: true },
@@ -9,6 +9,7 @@ export const taskSchema = new Schema({
   stageId: { type: String, required: true },
   executorId: { type: String, required: true, ref: Schema.Types.ObjectId },
   authorId: { type: String, required: true, ref: Schema.Types.ObjectId },
+  projectId: { type: String, required: true, ref: Schema.Types.ObjectId },
   status: { type: String, required: true },
   comments: { type: Array, default: null },
 });
