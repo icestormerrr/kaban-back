@@ -35,7 +35,7 @@ class ProjectService {
   async deleteProject(_id) {
     const project = await ProjectModel.findById(_id);
     if (!project) {
-      throw ApiError.NotFoundError("project is not found");
+      throw ApiError.NotFoundError("Project is not found");
     }
     return await project.deleteOne({ _id });
   }

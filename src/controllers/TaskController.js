@@ -1,77 +1,42 @@
-import { TaskModel } from "../models/TaskModel.js";
-
-const taskConstructor = (object) => {
-  return {
-    name: object.name,
-    epicId: object.epicId,
-    sprintId: object.sprintId,
-    stageId: object.stageId,
-    executorId: object.executorId,
-    status: Number(object.status),
-    description: object.description,
-    authorId: object.authorId,
-    comments: object.comments,
-  };
-};
+import { taskService } from "../services/TaskService.js";
 
 class TaskController {
-  async getTasks(req, res) {
+  async getTasks(req, res, next) {
     try {
-      const projectId = req.query.projectId;
-      const _id = req.query._id;
-      if (projectId) {
-        const tasks = await TaskModel.find({ projectId: projectId });
-        res.json(tasks);
-      } else if (_id) {
-        const task = await TaskModel.findById(_id);
-        res.json(task);
-      } else {
-        const tasks = await TaskModel.find();
-        res.json(tasks);
-      }
+      const tasks = await taskService.getTasks(req.query);
+      return res.json(tasks);
     } catch (err) {
-      res.status(500).json({ message: err.message });
+      next(err);
     }
   }
 
-  // not tested
-  async createTask(req, res) {
+  // TODO: add validation
+  async createTask(req, res, next) {
     try {
-      const tasks = new TaskModel(taskConstructor(req.body));
-      await tasks.save();
-      res.status(201);
+      const task = await taskService.createTask(req.body);
+      return res.json(task);
     } catch (err) {
-      res.status(400).json({ message: err.message });
+      next(err);
     }
   }
 
-  async updateTask(req, res) {
+  // TODO: add validation
+  async updateTask(req, res, next) {
     try {
-      const updatedTask = await TaskModel.findByIdAndUpdate(req.body._id, taskConstructor(req.body), { new: true });
-      if (updatedTask) {
-        res.status(200).json(updatedTask);
-      } else {
-        res.status(404).json({ message: "Task not found" });
-      }
+      const task = await taskService.updateTask(req.body);
+      return res.json(task);
     } catch (err) {
-      res.status(400).json({ message: err.message });
+      next(err);
     }
   }
 
-  // not tested
-  async deleteTask(req, res) {
+  async deleteTask(req, res, next) {
     try {
-      const task = await TaskModel.findById(req.params._id);
-      if (task) {
-        await task.deleteOne({ _id: req.params.id });
-        res.status(204).json({ message: "Task successfully deleted" });
-      } else {
-        res.status(404).json({ message: "Task is not found" });
-      }
+      const deleteInfo = await taskService.deleteTask(req.query._id);
+      return res.json(deleteInfo);
     } catch (err) {
-      res.status(500).json({ message: err.message });
+      next(err);
     }
   }
 }
-
 export const taskController = new TaskController();

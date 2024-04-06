@@ -8,4 +8,4 @@ export const taskRouter = express.Router();
 taskRouter.get("/", authMiddleware, taskController.getTasks);
 taskRouter.post("/", authMiddleware, taskController.createTask);
 taskRouter.put("/", authMiddleware, taskController.updateTask);
-taskRouter.delete("/:id", authMiddleware, taskController.deleteTask);
+taskRouter.delete("/", authMiddleware, taskController.deleteTask);

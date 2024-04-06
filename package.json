@@ -17,8 +17,6 @@
   },
   "type": "module",
   "scripts": {
-    "start:ts": "tsc -w",
-    "start:js": "nodemon build/index.js",
     "start": "nodemon ./src/index.js"
   },
   "keywords": [],
