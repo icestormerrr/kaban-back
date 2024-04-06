@@ -13,11 +13,11 @@ class TaskService {
 
     if (taskId) {
       const tasks = await TaskModel.find({ taskId: taskId });
-      return tasks.map(TaskShortDto);
+      return tasks.map((task) => new TaskShortDto(task));
     }
 
     const tasks = await TaskModel.find();
-    return tasks.map(TaskShortDto);
+    return tasks.map((task) => new TaskShortDto(task));
   }
 
   async createTask(body) {
