@@ -4,15 +4,15 @@ import { TaskDto, TaskShortDto } from "../dtos/TaskDto.js";
 
 class TaskService {
   async getTasks(filter) {
-    const { taskId, _id } = filter;
-    if (_id && taskId) throw ApiError.BadRequestError("Incompatible parameters");
+    const { projectId, _id } = filter;
+    if (_id && projectId) throw ApiError.BadRequestError("Incompatible parameters");
 
     if (_id) {
       return await TaskModel.findById(_id);
     }
 
-    if (taskId) {
-      const tasks = await TaskModel.find({ taskId: taskId });
+    if (projectId) {
+      const tasks = await TaskModel.find({ projectId });
       return tasks.map((task) => new TaskShortDto(task));
     }
 

@@ -1,17 +1,19 @@
 export class ProjectDto {
   name;
+  description;
   epics;
   sprints;
   stages;
   users;
-  author;
+  authorId;
   constructor(model) {
     this.name = model.name;
+    this.description = model.description;
     this.epics = model.epics;
     this.sprints = model.sprints;
     this.stages = model.stages;
     this.users = model.users;
-    this.author = model.author;
+    this.authorId = model.authorId;
   }
 }
 
