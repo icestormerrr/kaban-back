@@ -9,7 +9,7 @@ export class TaskDto {
   authorId;
   projectId;
   status;
-  comments;
+  messages;
   constructor(model) {
     this._id = model._id;
     this.name = model.name;
@@ -21,7 +21,7 @@ export class TaskDto {
     this.authorId = model.authorId;
     this.projectId = model.projectId;
     this.status = Number(model.status);
-    this.comments = model.comments;
+    this.messages = model.messages;
   }
 }
 
