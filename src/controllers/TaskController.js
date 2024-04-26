@@ -1,9 +1,9 @@
 import { taskService } from "../services/TaskService.js";
 
 class TaskController {
-  async getTasks(req, res, next) {
+  async getTask(req, res, next) {
     try {
-      const tasks = await taskService.getTasks(req.query);
+      const tasks = await taskService.getTask(req.query);
       return res.json(tasks);
     } catch (err) {
       next(err);

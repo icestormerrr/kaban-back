@@ -6,7 +6,7 @@ import { authMiddleware } from "../middlewares/authMiddleware.js";
 
 export const taskRouter = express.Router();
 
-taskRouter.get("/", authMiddleware, taskController.getTasks);
+taskRouter.get("/", authMiddleware, taskController.getTask);
 
 taskRouter.get("/grid", authMiddleware, taskController.getTasksGrid);
 

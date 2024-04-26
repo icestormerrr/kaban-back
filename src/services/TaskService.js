@@ -1,56 +1,50 @@
 import ApiError from "../exceptions/ApiError.js";
 import { TaskModel } from "../models/TaskModel.js";
-import { TaskDto, TaskShortDto, TasksGridDto } from "../dtos/TaskDto.js";
+import { TaskDto, TasksGriItemDto } from "../dtos/TaskDto.js";
 import { userService } from "./UserService.js";
 import { projectService } from "./ProjectService.js";
+import { findEntityById } from "../utils/searchUtils.js";
 
 class TaskService {
-  async getTasks(filter) {
-    const { executorId, sprintId, epicId, projectId, _id } = filter;
-
-    if (!_id && !projectId) throw ApiError.BadRequestError("Required parameters were not passed");
-
-    if (_id && (projectId || executorId || sprintId || epicId))
-      throw ApiError.BadRequestError("Incompatible parameters");
-
-    if (_id) {
-      return await TaskModel.findById(_id);
-    }
-
-    const dbFilter = { projectId };
-    if (executorId) dbFilter.executorId = executorId;
-    if (sprintId) dbFilter.sprintId = sprintId;
-    if (epicId) dbFilter.epicId = epicId;
-
-    const tasks = await TaskModel.find(dbFilter);
-    return tasks.map((task) => new TaskShortDto(task));
-  }
-
   async getTasksGrid(filter) {
-    const { projectId } = filter;
+    const { executorId, sprintId, epicId, projectId } = filter;
 
     if (!projectId) throw ApiError.BadRequestError("Required parameters were not passed");
 
-    const tasks = await TaskModel.find({ projectId });
+    const dbTaskFilter = { projectId };
+    if (executorId) dbTaskFilter.executorId = executorId;
+    if (sprintId) dbTaskFilter.sprintId = sprintId;
+    if (epicId) dbTaskFilter.epicId = epicId;
+
+    const tasks = await TaskModel.find(dbTaskFilter);
     const project = await projectService.getProjects({ _id: projectId });
-    const users = await userService.getUsers({ usersIds: project.users.join(",") });
+    const projectUsers = await userService.getUsers({ usersIds: project.users.join(",") });
 
     const rowData = tasks.map((task) => {
-      return new TasksGridDto({
+      return new TasksGriItemDto({
         _id: task._id,
         id: task._id,
         name: task.name,
         description: task.description,
-        epicName: project.epics.find((e) => e._id === task.epicId)?.name ?? "",
-        sprintName: project.sprints.find((s) => s._id === task.sprintId)?.name ?? "",
-        stageName: project.stages.find((s) => s._id === task.stageId)?.name ?? "",
-        executorName: users.find((u) => u._id.toString() === task.executorId)?.name ?? "",
-        authorName: users.find((u) => u._id.toString() === task.authorId)?.name ?? "",
-        status: Number(task.status),
+        epicName: findEntityById(project.epics, task.epicId)?.name ?? "",
+        sprintName: findEntityById(project.sprints, task.sprintId)?.name ?? "",
+        stageId: task.stageId,
+        stageName: findEntityById(project.stages, task.stageId)?.name ?? "",
+        executorName: findEntityById(projectUsers, task.executorId)?.name ?? "",
+        authorName: findEntityById(projectUsers, task.authorId)?.name ?? "",
+        status: task.status,
       });
     });
 
     return rowData;
+  }
+
+  async getTask(query) {
+    const { _id } = query;
+    if (!_id) throw ApiError.BadRequestError("Required parameters were not passed");
+
+    const task = await TaskModel.findById(_id);
+    return new TaskDto(task);
   }
 
   async createTask(body) {
