@@ -10,6 +10,15 @@ class TaskController {
     }
   }
 
+  async getTasksGrid(req, res, next) {
+    try {
+      const tasksRowData = await taskService.getTasksGrid(req.query);
+      return res.json(tasksRowData);
+    } catch (err) {
+      next(err);
+    }
+  }
+
   // TODO: add validation
   async createTask(req, res, next) {
     try {

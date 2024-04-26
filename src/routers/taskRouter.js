@@ -8,6 +8,8 @@ export const taskRouter = express.Router();
 
 taskRouter.get("/", authMiddleware, taskController.getTasks);
 
+taskRouter.get("/grid", authMiddleware, taskController.getTasksGrid);
+
 taskRouter.post(
   "/",
   authMiddleware,
