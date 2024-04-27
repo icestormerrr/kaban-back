@@ -1,6 +1,17 @@
 import { taskService } from "../services/TaskService.js";
 
+/**
+ * Controller for managing tasks
+ * @class
+ * @memberof module:Task
+ */
 class TaskController {
+  /**
+   * Get a single task
+   * @param {Object} req - Request object
+   * @param {Object} res - Response object
+   * @param {Function} next - Next function
+   */
   async getTask(req, res, next) {
     try {
       const tasks = await taskService.getTask(req.query);
@@ -10,6 +21,12 @@ class TaskController {
     }
   }
 
+  /**
+   * Get tasks data for grid
+   * @param {Object} req - Request object
+   * @param {Object} res - Response object
+   * @param {Function} next - Next function
+   */
   async getTasksGrid(req, res, next) {
     try {
       const tasksRowData = await taskService.getTasksGrid(req.query);
@@ -19,7 +36,12 @@ class TaskController {
     }
   }
 
-  // TODO: add validation
+  /**
+   * Create a new task
+   * @param {Object} req - Request object
+   * @param {Object} res - Response object
+   * @param {Function} next - Next function
+   */
   async createTask(req, res, next) {
     try {
       const task = await taskService.createTask(req.body);
@@ -29,7 +51,12 @@ class TaskController {
     }
   }
 
-  // TODO: add validation
+  /**
+   * Update an existing task
+   * @param {Object} req - Request object
+   * @param {Object} res - Response object
+   * @param {Function} next - Next function
+   */
   async updateTask(req, res, next) {
     try {
       const task = await taskService.updateTask(req.body);
@@ -39,6 +66,12 @@ class TaskController {
     }
   }
 
+  /**
+   * Delete a task
+   * @param {Object} req - Request object
+   * @param {Object} res - Response object
+   * @param {Function} next - Next function
+   */
   async deleteTask(req, res, next) {
     try {
       const deleteInfo = await taskService.deleteTask(req.query._id);

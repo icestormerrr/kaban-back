@@ -1,5 +1,17 @@
 import { projectService } from "../services/ProjectService.js";
+
+/**
+ * Controller for managing projects
+ * @class
+ * @memberof module:Project
+ */
 class ProjectController {
+  /**
+   * Get projects based on the provided query
+   * @param {Object} req - Request object
+   * @param {Object} res - Response object
+   * @param {Function} next - Next function
+   */
   async getProjects(req, res, next) {
     try {
       const projects = await projectService.getProjects(req.query);
@@ -9,7 +21,12 @@ class ProjectController {
     }
   }
 
-  // TODO: add validation
+  /**
+   * Create a new project
+   * @param {Object} req - Request object
+   * @param {Object} res - Response object
+   * @param {Function} next - Next function
+   */
   async createProject(req, res, next) {
     try {
       const project = await projectService.createProject(req.body);
@@ -19,7 +36,12 @@ class ProjectController {
     }
   }
 
-  // TODO: add validation
+  /**
+   * Update an existing project
+   * @param {Object} req - Request object
+   * @param {Object} res - Response object
+   * @param {Function} next - Next function
+   */
   async updateProject(req, res, next) {
     try {
       const project = await projectService.updateProject(req.body);
@@ -29,6 +51,12 @@ class ProjectController {
     }
   }
 
+  /**
+   * Delete a project based on the provided query
+   * @param {Object} req - Request object
+   * @param {Object} res - Response object
+   * @param {Function} next - Next function
+   */
   async deleteProject(req, res, next) {
     try {
       const deleteInfo = await projectService.deleteProject(req.query._id);

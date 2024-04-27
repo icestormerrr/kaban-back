@@ -10,8 +10,18 @@ const cookieOptions = {
   sameSite: "none",
   path: "/",
 };
-
+/**
+ * Controller for managing authorization
+ * @class
+ * @memberof module:Authorization
+ */
 class AuthController {
+  /**
+   * Register a new user
+   * @param {Object} req - Request object
+   * @param {Object} res - Response object
+   * @param {Function} next - Next function
+   */
   async register(req, res, next) {
     try {
       const validationErrors = validationResult(req);
@@ -27,6 +37,12 @@ class AuthController {
     }
   }
 
+  /**
+   * Login a user
+   * @param {Object} req - Request object
+   * @param {Object} res - Response object
+   * @param {Function} next - Next function
+   */
   async login(req, res, next) {
     try {
       const { email, password } = req.body;
@@ -38,6 +54,12 @@ class AuthController {
     }
   }
 
+  /**
+   * Logout a user
+   * @param {Object} req - Request object
+   * @param {Object} res - Response object
+   * @param {Function} next - Next function
+   */
   async logout(req, res, next) {
     try {
       const { refreshToken } = req.cookies;
@@ -49,6 +71,12 @@ class AuthController {
     }
   }
 
+  /**
+   * Refresh user's access token
+   * @param {Object} req - Request object
+   * @param {Object} res - Response object
+   * @param {Function} next - Next function
+   */
   async refresh(req, res, next) {
     try {
       const { refreshToken } = req.cookies;

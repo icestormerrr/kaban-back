@@ -5,7 +5,20 @@ import { userService } from "./UserService.js";
 import { projectService } from "./ProjectService.js";
 import { findEntityById } from "../utils/searchUtils.js";
 
+/**
+ * @module Task
+ */
+
+/**
+ * Service for managing tasks
+ */
 class TaskService {
+  /**
+   * Get tasks data for grid based on the provided filter
+   * @param {Object} filter - Filter object containing executorId, sprintId, epicId, and projectId
+   * @returns {Promise<Array>} - Array of tasks data for grid
+   * @throws {ApiError} - BadRequestError if projectId is not provided
+   */
   async getTasksGrid(filter) {
     const { executorId, sprintId, epicId, projectId } = filter;
 
@@ -39,6 +52,12 @@ class TaskService {
     return rowData;
   }
 
+  /**
+   * Get a single task based on the provided query
+   * @param {Object} query - Query object containing _id
+   * @returns {Promise<Object>} - Single task object
+   * @throws {ApiError} - BadRequestError if _id is not provided
+   */
   async getTask(query) {
     const { _id } = query;
     if (!_id) throw ApiError.BadRequestError("Required parameters were not passed");
@@ -47,11 +66,22 @@ class TaskService {
     return new TaskDto(task);
   }
 
+  /**
+   * Create a new task
+   * @param {Object} body - Task data to create
+   * @returns {Promise<Object>} - Created task
+   */
   async createTask(body) {
     const task = await TaskModel.create(new TaskDto(body));
     return task;
   }
 
+  /**
+   * Update an existing task
+   * @param {Object} body - Updated task data
+   * @returns {Promise<Object>} - Updated task
+   * @throws {ApiError} - NotFoundError if the task is not found
+   */
   async updateTask(body) {
     const updatedTask = await TaskModel.findByIdAndUpdate(body._id, new TaskDto(body), { new: true });
     if (!updatedTask) {
@@ -60,6 +90,12 @@ class TaskService {
     return updatedTask;
   }
 
+  /**
+   * Delete a task
+   * @param {string} _id - Task ID to delete
+   * @returns {Promise<Object>} - Deletion result
+   * @throws {ApiError} - NotFoundError if the task is not found
+   */
   async deleteTask(_id) {
     const task = await TaskModel.findById(_id);
     if (!task) {

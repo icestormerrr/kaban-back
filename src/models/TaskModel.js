@@ -1,5 +1,10 @@
 import { Schema, model } from "mongoose";
 
+/**
+ * Mongoose schema for Task
+ * @name taskSchema
+ * @memberof module:Task
+ */
 export const taskSchema = new Schema({
   id: { type: String },
   name: { type: String, required: true },
@@ -14,4 +19,9 @@ export const taskSchema = new Schema({
   messages: { type: Array, default: null },
 });
 
+/**
+ * Mongoose model for the Task schema
+ * @name TaskModel
+ * @memberof module:Task
+ */
 export const TaskModel = model("Task", taskSchema);

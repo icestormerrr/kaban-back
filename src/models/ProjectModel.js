@@ -1,5 +1,10 @@
 import { Schema, model } from "mongoose";
 
+/**
+ * Mongoose schema for Project
+ * @name projectSchema
+ * @memberof module:Project
+ */
 export const projectSchema = new Schema({
   name: { type: String, required: true },
   description: { type: String, required: true },
@@ -10,4 +15,9 @@ export const projectSchema = new Schema({
   users: { type: Array, default: [] },
 });
 
+/**
+ * Mongoose model for the Project schema
+ * @name ProjectModel
+ * @memberof module:Project
+ */
 export const ProjectModel = model("Project", projectSchema);
