@@ -1,31 +1,31 @@
 # KABAN
 
-Kaban - это инструмент управления проектами, который помогает команде получать информацию о задачах, а менеджеру отслеживать их выполнение.
+Kaban is a project management tool that helps the team get information about tasks, and allows the manager to track their completion.
 
-# Деплой
-1. Склонируйте репозиторий:
+# Deployment
+
+### Production
+
+1. Clone the repository:
    - git clone
-2. Добавьте в корень проекта .env файл, пример содержания:
-   - PORT=4000
-   DB_URL=mongodb://mongodb:27017/kaban
-   CLIENT_URL=http://localhost:3000
-   JWT_ACCESS_SECRET_KEY=some-secret-key-1
-   JWT_REFRESH_SECRET_KEY=some-secret-key-2
-3. Запустите docker-compose:
+2. Create a .env file in the root
+3. Launch docker-compose:
    - docker-compose up -d
 
-# Локальная разработка
+### Development
 
-1. Убедитесь, что на вашем компьютере установлен Node.js и MongoDB.
-2. Склонируйте репозиторий:
-    - git clone
-3. Создайте в корне .env файл, пример содержания:
-   - PORT=4000
-   DB_URL=mongodb://localhost:27017/kaban
-   CLIENT_URL=url-of-frontend-application
-   JWT_ACCESS_SECRET_KEY=some-secret-key-1
-   JWT_REFRESH_SECRET_KEY=some-secret-key-2
-4. Установите зависимости:
+1. Ensure that Node.js and MongoDB are installed on your computer
+2. Clone the repository:
+   - git clone
+3. Create a .env file in the root
+4. Install dependencies:
    - npm install
-5. Запустите проект:
+5. Start the project:
    - npm run dev
+
+### Example of .env file:
+      PORT=4000
+      DB_URL=mongodb://mongodb:27017/kaban
+      CLIENT_URL=http://localhost:3000
+      JWT_ACCESS_SECRET_KEY=some-secret-key-1
+      JWT_REFRESH_SECRET_KEY=some-secret-key-2
