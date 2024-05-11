@@ -7,4 +7,6 @@ export const userRouter = express.Router();
 
 userRouter.get("/", authMiddleware, userController.getUsers);
 
+userRouter.get("/current", authMiddleware, userController.getCurrentUser);
+
 userRouter.delete("/", authMiddleware, userController.deleteUser);
