@@ -6,6 +6,7 @@ export class ProjectDto {
   stages;
   users;
   authorId;
+  customFields;
   constructor(model) {
     this.name = model.name;
     this.description = model.description;
@@ -14,6 +15,7 @@ export class ProjectDto {
     this.stages = model.stages;
     this.users = model.users;
     this.authorId = model.authorId;
+    this.customFields = model.customFields;
   }
 }
 

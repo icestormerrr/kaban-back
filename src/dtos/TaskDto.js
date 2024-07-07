@@ -27,7 +27,6 @@ export class TaskDto {
 
 export class TasksGriItemDto {
   _id;
-  id; // for grid in front
   name;
   description;
   epicName;
@@ -39,7 +38,6 @@ export class TasksGriItemDto {
   status;
   constructor(model) {
     this._id = model._id;
-    this.id = model.id;
     this.name = model.name;
     this.description = model.description;
     this.epicName = model.epicName;

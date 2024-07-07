@@ -8,6 +8,7 @@ export const projectSchema = new Schema({
   sprints: { type: Array, default: [] },
   stages: { type: Array, default: [] },
   users: { type: Array, default: [] },
+  customFields: { type: Array, default: [] },
 });
 
 export const ProjectModel = model("Project", projectSchema);
