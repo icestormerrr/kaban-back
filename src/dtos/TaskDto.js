@@ -10,6 +10,7 @@ export class TaskDto {
   projectId;
   status;
   messages;
+  custom;
   constructor(model) {
     this._id = model._id;
     this.name = model.name;
@@ -22,6 +23,7 @@ export class TaskDto {
     this.projectId = model.projectId;
     this.status = model.status;
     this.messages = model.messages;
+    this.custom = model.custom;
   }
 }
 

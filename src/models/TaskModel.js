@@ -12,6 +12,7 @@ export const taskSchema = new Schema({
   projectId: { type: String, required: true, ref: Schema.Types.ObjectId },
   status: { type: String, required: true },
   messages: { type: Array, default: null },
+  custom: {},
 });
 
 export const TaskModel = model("Task", taskSchema);
