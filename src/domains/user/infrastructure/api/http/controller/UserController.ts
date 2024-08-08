@@ -53,7 +53,7 @@ export class UserController {
       if (!_id) throw HttpError.BadRequestError("Required param _id was not passed");
 
       const user = await this.userService.getById(_id);
-      if (!user) HttpError.NotFoundError("User with this _id was not found");
+      if (!user) throw HttpError.NotFoundError("User with this _id was not found");
 
       return response.json(new UserWithoutPasswordDto(user!));
     } catch (err) {

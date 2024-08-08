@@ -6,7 +6,6 @@ import { MongoUserMapper } from "../mappers/MongoUserMapper";
 
 export class MongoUserRepository implements IUserRepository {
   async findById(id: string) {
-    console.log(id);
     const user = await mongoUserModel.findById(id).exec();
     return user ? MongoUserMapper.toModel(user) : null;
   }

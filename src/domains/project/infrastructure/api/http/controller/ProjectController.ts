@@ -23,13 +23,17 @@ export class ProjectController {
   }
 
   async getById(request: Request, response: Response, next: NextFunction) {
-    const { _id } = request.params;
-    if (!_id) throw HttpError.BadRequestError("Required param _id was not passed");
+    try {
+      const { _id } = request.params;
+      if (!_id) throw HttpError.BadRequestError("Required param _id was not passed");
 
-    const project = await this.projectService.getById(_id);
-    if (!project) throw HttpError.NotFoundError("Project with this _id does not exist");
+      const project = await this.projectService.getById(_id);
+      if (!project) throw HttpError.NotFoundError("Project with this _id does not exist");
 
-    return response.json(project);
+      return response.json(project);
+    } catch (e) {
+      next(e);
+    }
   }
 
   async create(request: Request, response: Response, next: NextFunction) {
