@@ -1,6 +1,5 @@
 import { TaskStatus } from "./TaskStatus";
 import { Message } from "../../../../common/entities/Message";
-import { Primitive } from "../../../../common/types/types";
 
 export interface Task {
   _id: string;

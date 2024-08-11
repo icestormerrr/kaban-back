@@ -3,8 +3,6 @@ import { NextFunction, Request, Response, Router } from "express";
 import HttpError from "../../../../../../common/http/exceptions/HttpError";
 import { IProjectService } from "../../../../core/service/ProjectService";
 import { projectService } from "../../../../core/di";
-import { Project } from "../../../../core/model/Project";
-import { ProjectShortDto } from "../dtos/ProjectShortDto";
 import { authMiddleware } from "../../../../../../common/http/middlewares/authMiddleware";
 
 export class ProjectController {

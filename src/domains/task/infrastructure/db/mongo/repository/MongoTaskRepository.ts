@@ -5,8 +5,14 @@ import { Task } from "../../../../core/model/Task";
 
 export class MongoTaskRepository implements ITaskRepository {
   async getAllByFilter(filter: { projectId: string; [key: string]: any }) {
-    const tasks = await mongoTaskModel.find(filter).exec();
+    const searchFields = Object.keys(filter).filter((key) => typeof filter[key] === "string");
 
+    for (const field of searchFields) {
+      const regexPattern = new RegExp(`.*${filter[field]}.*`, "i");
+      filter[field] = { $regex: regexPattern };
+    }
+
+    const tasks = await mongoTaskModel.find(filter).exec();
     return tasks.map((mongoTask) => MongoTaskMapper.toModel(mongoTask.toObject()));
   }
 

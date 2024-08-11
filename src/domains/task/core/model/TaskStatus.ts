@@ -1,6 +1,7 @@
 export enum TaskStatus {
   NotImportant = "0",
-  Important = "1",
-  VeryImportant = "2",
-  Blocker = "3",
+  Desirable = "1",
+  Important = "2",
+  VeryImportant = "3",
+  Critical = "4",
 }

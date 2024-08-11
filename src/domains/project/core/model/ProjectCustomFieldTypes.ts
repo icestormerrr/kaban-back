@@ -3,4 +3,5 @@ export enum ProjectCustomFieldTypes {
   Number = "number",
   Select = "select",
   Boolean = "boolean",
+  Date = "date",
 }
