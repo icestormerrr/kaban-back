@@ -26,6 +26,6 @@ Kaban is a project management tool that helps the team get information about tas
 ### Example of .env file:
       PORT=4000
       DB_URL=mongodb://mongodb:27017/kaban
-      CLIENT_URL=http://localhost:3000
+      CLIENT_URL=http://localhost:5173
       JWT_ACCESS_SECRET_KEY=some-secret-key-1
       JWT_REFRESH_SECRET_KEY=some-secret-key-2
