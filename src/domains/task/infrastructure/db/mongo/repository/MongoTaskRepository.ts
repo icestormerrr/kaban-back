@@ -31,13 +31,13 @@ export class MongoTaskRepository implements ITaskRepository {
   }
 
   async update(task: Task) {
+    const { creationDatetime, ...datelessTask } = task;
+
     const updatedTask = await mongoTaskModel
-      .findByIdAndUpdate(task._id, MongoTaskMapper.toDb(task), { new: true })
+      .findByIdAndUpdate(task._id, MongoTaskMapper.toDb(datelessTask as Task), { new: true })
       .exec();
-    if (!updatedTask) {
-      return null;
-    }
-    return MongoTaskMapper.toModel(updatedTask.toObject());
+
+    return updatedTask ? MongoTaskMapper.toModel(updatedTask.toObject()) : null;
   }
 
   async deleteById(id: string) {

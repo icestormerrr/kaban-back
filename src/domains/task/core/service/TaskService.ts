@@ -32,7 +32,7 @@ export class TaskService implements ITaskService {
   }
 
   async create(task: Task) {
-    return await this.taskRepository.create(task);
+    return await this.taskRepository.create({ ...task, creationDatetime: Date.now() });
   }
   async update(task: Task) {
     return await this.taskRepository.update(task);
@@ -117,6 +117,16 @@ export class TaskService implements ITaskService {
       }
     } else {
       errors.push("Required field executor is empty");
+    }
+
+    if (!!task.creationDatetime) {
+      if (typeof task.creationDatetime !== "number") errors.push("Creation datetime has invalid format");
+    } else {
+      errors.push("Required field Creation datetime is empty");
+    }
+
+    if (task.planEndDatetime && typeof task.planEndDatetime !== "number") {
+      errors.push("Plan end datetime has invalid format");
     }
 
     if (

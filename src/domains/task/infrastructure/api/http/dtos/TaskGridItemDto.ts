@@ -14,6 +14,8 @@ export class TaskGridItemDto {
   readonly executorName: string;
   readonly authorName: string;
   readonly status: string;
+  readonly creationDatetime: number;
+  readonly planEndDatetime?: number;
   constructor(task: Task, project: Project, users: User[]) {
     this._id = task._id;
     this.name = task.name;
@@ -25,5 +27,7 @@ export class TaskGridItemDto {
     this.executorName = findById(users, task.executorId)?.name ?? "";
     this.authorName = findById(users, task.authorId)?.name ?? "";
     this.status = task.status;
+    this.creationDatetime = task.creationDatetime;
+    this.planEndDatetime = task.planEndDatetime;
   }
 }

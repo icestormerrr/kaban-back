@@ -13,6 +13,8 @@ export interface MongoTask {
   authorId: string;
   executorId: string;
   projectId: string;
+  creationDatetime: number;
+  planEndDatetime?: number;
   messages: Message[] | null;
   [key: string]: any;
 }

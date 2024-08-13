@@ -22,6 +22,8 @@ const mongoTaskSchema = new Schema(
     authorId: { type: String, ref: "User", required: true },
     executorId: { type: String, ref: "User", required: true },
     projectId: { type: String, ref: "Project", required: true },
+    creationDatetime: { type: Number, required: true },
+    planEndDatetime: { type: Number },
     messages: { type: [messageSchema], required: false },
   },
   { strict: false },
