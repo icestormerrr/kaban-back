@@ -3,11 +3,11 @@ import { Task } from "../model/Task";
 import { IUserService } from "../../../user/core/service/UserService";
 import { IProjectService } from "../../../project/core/service/ProjectService";
 import { TaskStatus } from "../model/TaskStatus";
+import { TaskFilter } from "../model/TaskFilter";
 
 export interface ITaskService {
-  getAllByFilter(filter: { projectId: string; [key: string]: any }): Promise<Task[]>;
+  getAllByFilter(filter: TaskFilter): Promise<Task[]>;
   getById(id: string): Promise<Task | null>;
-  getCriticalTasks(projectId: string): Promise<Task[]>;
   create(task: Task): Promise<Task>;
   update(task: Task): Promise<Task | null>;
   deleteById(id: string): Promise<void>;
@@ -21,14 +21,12 @@ export class TaskService implements ITaskService {
     private projectService: IProjectService,
   ) {}
 
-  async getAllByFilter(filter: { projectId: string; [key: string]: any }) {
+  async getAllByFilter(filter: TaskFilter) {
     return await this.taskRepository.getAllByFilter(filter);
   }
+
   async getById(id: string) {
     return await this.taskRepository.getById(id);
-  }
-  async getCriticalTasks(projectId: string) {
-    return await this.taskRepository.getAllByFilter({ projectId, status: TaskStatus.Critical });
   }
 
   async create(task: Task) {

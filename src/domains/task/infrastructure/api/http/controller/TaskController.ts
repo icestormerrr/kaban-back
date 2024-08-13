@@ -12,6 +12,7 @@ import { projectService } from "../../../../../project/core/di";
 import { userService } from "../../../../../user/core/di";
 import { authMiddleware } from "../../../../../../common/http/middlewares/authMiddleware";
 import { Project } from "../../../../../project/core/model/Project";
+import { TaskFilter } from "../../../../core/model/TaskFilter";
 
 export class TaskController {
   constructor(
@@ -41,8 +42,14 @@ export class TaskController {
   private createFilterFromRequest(request: Request, project: Project) {
     const { projectId } = request.query;
 
-    const filter: { projectId: string; [key: string]: any } = { projectId: projectId as string };
-    const knownProperties = ["epicId", "sprintId", "executorId", ...project.customFields.map((field) => field._id)];
+    const filter: TaskFilter = { projectId: projectId as string };
+    const knownProperties = [
+      "epicId",
+      "sprintId",
+      "executorId",
+      "name",
+      ...project.customFields.map((field) => field._id),
+    ];
 
     for (const prop in request.query) {
       if (knownProperties.includes(prop)) filter[prop] = request.query[prop];
