@@ -21,14 +21,13 @@ export class TaskController {
     private userService: IUserService,
   ) {}
 
-  async getTaskGrid(request: Request, response: Response, next: NextFunction) {
+  async getTasksGrid(request: Request, response: Response, next: NextFunction) {
     try {
       const { projectId } = request.query;
       if (typeof projectId !== "string") throw HttpError.BadRequestError("Required parameter projectId was not passed");
 
       const project = await this.projectService.getById(projectId);
       if (!project) throw HttpError.BadRequestError("Project with this id was not found");
-
       const filter = this.createFilterFromRequest(request, project);
 
       const tasks = await this.taskService.getAllByProject(filter);
@@ -39,6 +38,23 @@ export class TaskController {
       next(e);
     }
   }
+
+  async getCriticalTasksGrid(request: Request, response: Response, next: NextFunction) {
+    try {
+      const { projectId } = request.query;
+      if (typeof projectId !== "string") throw HttpError.BadRequestError("Required parameter projectId was not passed");
+
+      const project = await this.projectService.getById(projectId);
+      if (!project) throw HttpError.BadRequestError("Project with this id was not found");
+      const tasks = await this.taskService.getCriticalTasks();
+      const users = await this.userService.getByIds(project.users);
+
+      return response.json(tasks.map((t) => new TaskGridItemDto(t, project, users)));
+    } catch (e) {
+      next(e);
+    }
+  }
+
   private createFilterFromRequest(request: Request, project: Project) {
     const { projectId } = request.query;
 
@@ -105,7 +121,8 @@ export class TaskController {
 
 const taskController = new TaskController(taskService, projectService, userService);
 export const taskRouter = Router();
-taskRouter.get("/grid", authMiddleware, taskController.getTaskGrid.bind(taskController));
+taskRouter.get("/grid", authMiddleware, taskController.getTasksGrid.bind(taskController));
+taskRouter.get("/critical", authMiddleware, taskController.getCriticalTasksGrid.bind(taskController));
 taskRouter.get("/:id", authMiddleware, taskController.getById.bind(taskController));
 taskRouter.post("/", authMiddleware, taskController.create.bind(taskController));
 taskRouter.put("/", authMiddleware, taskController.update.bind(taskController));

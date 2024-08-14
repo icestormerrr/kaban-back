@@ -7,6 +7,7 @@ import { TaskFilter } from "../model/TaskFilter";
 
 export interface ITaskService {
   getAllByProject(filter: TaskFilter): Promise<Task[]>;
+  getCriticalTasks(): Promise<Task[]>;
   getById(id: string): Promise<Task | null>;
   create(task: Task): Promise<Task>;
   update(task: Task): Promise<Task | null>;
@@ -23,6 +24,10 @@ export class TaskService implements ITaskService {
 
   async getAllByProject(filter: TaskFilter) {
     return await this.taskRepository.getAllByProject(filter);
+  }
+
+  async getCriticalTasks() {
+    return await this.taskRepository.getAllByStatus(TaskStatus.Critical);
   }
 
   async getById(id: string) {

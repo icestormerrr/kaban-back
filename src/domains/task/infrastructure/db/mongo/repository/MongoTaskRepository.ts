@@ -3,6 +3,7 @@ import { MongoTaskMapper } from "../mappers/MongoTaskMapper";
 import { mongoTaskModel } from "../model/mongoTaskModel";
 import { Task } from "../../../../core/model/Task";
 import { TaskFilter } from "../../../../core/model/TaskFilter";
+import { TaskStatus } from "../../../../core/model/TaskStatus";
 
 export class MongoTaskRepository implements ITaskRepository {
   async getAllByProject(filter: TaskFilter) {
@@ -32,6 +33,12 @@ export class MongoTaskRepository implements ITaskRepository {
     }
     return MongoTaskMapper.toModel(task.toObject());
   }
+
+  async getAllByStatus(status: TaskStatus) {
+    const tasks = await mongoTaskModel.find({ status }).exec();
+    return tasks.map((mongoTask) => MongoTaskMapper.toModel(mongoTask.toObject()));
+  }
+
   async create(task: Task) {
     const newTask = await mongoTaskModel.create(MongoTaskMapper.toDb(task));
 
