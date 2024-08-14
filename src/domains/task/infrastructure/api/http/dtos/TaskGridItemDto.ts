@@ -4,7 +4,7 @@ import { User } from "../../../../../user/core/model/User";
 import { findById } from "../../../../../../common/utils/findById";
 
 export class TaskGridItemDto {
-  readonly _id: string;
+  readonly id: string;
   readonly name: string;
   readonly description: string;
   readonly epicName: string;
@@ -17,7 +17,7 @@ export class TaskGridItemDto {
   readonly creationDatetime: number;
   readonly planEndDatetime?: number;
   constructor(task: Task, project: Project, users: User[]) {
-    this._id = task._id;
+    this.id = task.id;
     this.name = task.name;
     this.description = task.description;
     this.epicName = findById(project.epics, task.epicId)?.name ?? "";

@@ -4,7 +4,7 @@ import { MongoProject } from "../model/MongoProject";
 export class MongoProjectMapper {
   static toDb(project: Project) {
     return new MongoProject(
-      project._id,
+      project.id,
       project.name,
       project.description,
       project.authorId,

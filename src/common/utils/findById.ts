@@ -1,3 +1,3 @@
-export const findById = <T extends { _id: string }>(list: T[], _id: string) => {
-  return list.find((entity) => entity._id.toString() === _id);
+export const findById = <T extends { id: string }>(list: T[], id: string) => {
+  return list.find((entity) => entity.id.toString() === id);
 };

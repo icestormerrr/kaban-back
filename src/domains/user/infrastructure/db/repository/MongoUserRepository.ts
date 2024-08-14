@@ -16,14 +16,13 @@ export class MongoUserRepository implements IUserRepository {
   }
 
   async create(user: User) {
-    const createdUser = await mongoUserModel.create(MongoUserMapper.toDb(user));
+    const { _id, ...userWithoutId } = MongoUserMapper.toDb(user);
+    const createdUser = await mongoUserModel.create(userWithoutId);
     return MongoUserMapper.toModel(createdUser);
   }
 
   async update(user: User) {
-    const mongoUser = await mongoUserModel
-      .findByIdAndUpdate(user._id, MongoUserMapper.toDb(user), { new: true })
-      .exec();
+    const mongoUser = await mongoUserModel.findByIdAndUpdate(user.id, MongoUserMapper.toDb(user), { new: true }).exec();
     return mongoUser ? MongoUserMapper.toModel(mongoUser) : null;
   }
 

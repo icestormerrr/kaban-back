@@ -11,26 +11,26 @@ export const projectSchema = new Schema({
   authorId: { type: String, required: true },
   epics: [
     {
-      _id: { type: String, required: true },
+      id: { type: String, required: true },
       name: { type: String, required: true },
     },
   ],
   sprints: [
     {
-      _id: { type: String, required: true },
+      id: { type: String, required: true },
       name: { type: String, required: true },
     },
   ],
   stages: [
     {
-      _id: { type: String, required: true },
+      id: { type: String, required: true },
       name: { type: String, required: true },
     },
   ],
   users: [{ type: String, required: true }],
   customFields: [
     {
-      _id: { type: String, required: true },
+      id: { type: String, required: true },
       name: { type: String, required: true },
       type: { type: String, enum: Object.values(ProjectCustomFieldTypes) },
     },

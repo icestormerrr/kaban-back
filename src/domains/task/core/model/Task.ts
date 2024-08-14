@@ -2,7 +2,7 @@ import { TaskStatus } from "./TaskStatus";
 import { Message } from "../../../../common/entities/Message";
 
 export interface Task {
-  _id: string;
+  id: string;
   name: string;
   description: string;
   status: TaskStatus;

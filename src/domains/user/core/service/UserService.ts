@@ -6,8 +6,8 @@ import { ITokenService } from "../../../token/core/service/TokenService";
 
 type AuthReturnValue = { user: User; tokens: { accessToken: string; refreshToken: string } };
 export interface IUserService {
-  register(user: Omit<User, "_id">, errors: string[]): Promise<AuthReturnValue | Partial<AuthReturnValue>>;
-  login(user: Omit<User, "_id" | "name">, errors: string[]): Promise<AuthReturnValue | Partial<AuthReturnValue>>;
+  register(user: Omit<User, "id">, errors: string[]): Promise<AuthReturnValue | Partial<AuthReturnValue>>;
+  login(user: Omit<User, "id" | "name">, errors: string[]): Promise<AuthReturnValue | Partial<AuthReturnValue>>;
   refresh(refreshToken: string, errors: string[]): Promise<AuthReturnValue | Partial<AuthReturnValue>>;
   logout(refreshToken: string): Promise<void>;
   getById(userId: string): Promise<User | null>;
@@ -21,7 +21,7 @@ export class UserService implements IUserService {
     private tokenService: ITokenService,
   ) {}
 
-  async register(user: Omit<User, "_id">, errors: string[]) {
+  async register(user: Omit<User, "id">, errors: string[]) {
     const { email, password, name } = user;
 
     const existingUser = await this.userRepository.findByEmail(email);
@@ -37,7 +37,7 @@ export class UserService implements IUserService {
     return { user: newUser, tokens };
   }
 
-  async login(user: Omit<User, "_id" | "name">, errors: string[]) {
+  async login(user: Omit<User, "id" | "name">, errors: string[]) {
     const { email, password } = user;
 
     const existingUser = await this.userRepository.findByEmail(email);
@@ -67,7 +67,7 @@ export class UserService implements IUserService {
       return {};
     }
 
-    const user = await this.userRepository.findById(userDataFromToken._id);
+    const user = await this.userRepository.findById(userDataFromToken.id);
     if (!user) {
       errors.push("Cannot invalidate the token");
       return {};

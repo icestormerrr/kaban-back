@@ -21,6 +21,7 @@ export class MongoProjectRepository implements IProjectRepository {
 
     return project ? MongoProjectMapper.toModel(project) : null;
   }
+
   async create(project: Project) {
     const newProject = await mongoProjectModel.create(MongoProjectMapper.toDb(project));
 
@@ -29,7 +30,7 @@ export class MongoProjectRepository implements IProjectRepository {
 
   async update(project: Project) {
     const updatedProject = await mongoProjectModel
-      .findByIdAndUpdate(project._id, MongoProjectMapper.toDb(project), { new: true })
+      .findByIdAndUpdate(project.id, MongoProjectMapper.toDb(project), { new: true })
       .exec();
 
     return updatedProject ? MongoProjectMapper.toModel(updatedProject) : null;

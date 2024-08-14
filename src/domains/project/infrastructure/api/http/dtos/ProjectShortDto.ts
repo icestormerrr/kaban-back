@@ -1,8 +1,8 @@
 export class ProjectShortDto {
-  _id: string;
+  id: string;
   name: string;
   constructor(object: any) {
-    this._id = object._id;
+    this.id = object.id;
     this.name = object.name;
   }
 }

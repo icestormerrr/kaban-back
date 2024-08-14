@@ -20,7 +20,7 @@ export class UserController {
   async getCurrentUser(request: Request, response: Response, next: NextFunction) {
     try {
       //@ts-ignore
-      const userId = request.user._id;
+      const userId = request.user.id;
       const user = await this.userService.getById(userId);
       if (!user) throw HttpError.NotFoundError("Current user is not found");
       return response.json(new UserWithoutPasswordDto(user));
@@ -49,11 +49,11 @@ export class UserController {
 
   async getById(request: Request, response: Response, next: NextFunction) {
     try {
-      const { _id } = request.params;
-      if (!_id) throw HttpError.BadRequestError("Required param _id was not passed");
+      const { id } = request.params;
+      if (!id) throw HttpError.BadRequestError("Required param id was not passed");
 
-      const user = await this.userService.getById(_id);
-      if (!user) throw HttpError.NotFoundError("User with this _id was not found");
+      const user = await this.userService.getById(id);
+      if (!user) throw HttpError.NotFoundError("User with this id was not found");
 
       return response.json(new UserWithoutPasswordDto(user!));
     } catch (err) {
@@ -144,4 +144,4 @@ userRouter.get("/refresh", userController.refresh.bind(userController));
 
 userRouter.get("/", authMiddleware, userController.getAll.bind(userController));
 userRouter.get("/current", authMiddleware, userController.getCurrentUser.bind(userController));
-userRouter.get("/:_id", authMiddleware, userController.getById.bind(userController));
+userRouter.get("/:id", authMiddleware, userController.getById.bind(userController));

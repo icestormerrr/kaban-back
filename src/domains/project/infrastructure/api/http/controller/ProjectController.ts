@@ -22,11 +22,11 @@ export class ProjectController {
 
   async getById(request: Request, response: Response, next: NextFunction) {
     try {
-      const { _id } = request.params;
-      if (!_id) throw HttpError.BadRequestError("Required param _id was not passed");
+      const { id } = request.params;
+      if (!id) throw HttpError.BadRequestError("Required param id was not passed");
 
-      const project = await this.projectService.getById(_id);
-      if (!project) throw HttpError.NotFoundError("Project with this _id does not exist");
+      const project = await this.projectService.getById(id);
+      if (!project) throw HttpError.NotFoundError("Project with this id does not exist");
 
       return response.json(project);
     } catch (e) {
@@ -68,6 +68,6 @@ export class ProjectController {
 const projectController = new ProjectController(projectService);
 export const projectRouter = Router();
 projectRouter.get("/", authMiddleware, projectController.getAll.bind(projectController));
-projectRouter.get("/:_id", authMiddleware, projectController.getById.bind(projectController));
+projectRouter.get("/:id", authMiddleware, projectController.getById.bind(projectController));
 projectRouter.post("/", authMiddleware, projectController.create.bind(projectController));
 projectRouter.put("/", authMiddleware, projectController.update.bind(projectController));

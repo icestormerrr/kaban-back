@@ -38,7 +38,7 @@ export class MongoTaskRepository implements ITaskRepository {
     const { creationDatetime, ...datelessTask } = task;
 
     const updatedTask = await mongoTaskModel
-      .findByIdAndUpdate(task._id, MongoTaskMapper.toDb(datelessTask as Task), { new: true })
+      .findByIdAndUpdate(task.id, MongoTaskMapper.toDb(datelessTask as Task), { new: true })
       .exec();
 
     return updatedTask ? MongoTaskMapper.toModel(updatedTask.toObject()) : null;

@@ -5,7 +5,7 @@ interface IMongoTaskDocument extends Document, MongoTask {}
 interface IMongoTaskModel extends Model<MongoTask> {}
 
 const messageSchema = new Schema({
-  _id: { type: String, required: true },
+  id: { type: String, required: true },
   description: { type: String, required: true },
   date: { type: Number, required: true },
   userId: { type: String, required: true },

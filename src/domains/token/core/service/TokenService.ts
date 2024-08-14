@@ -15,12 +15,12 @@ export class TokenService implements ITokenService {
 
   async updateTokenForUser(user: User) {
     const newTokens = this.generateTokens({ ...user });
-    const isTokenForUserExist = await this.tokenRepository.getByUserId(user._id);
+    const isTokenForUserExist = await this.tokenRepository.getByUserId(user.id);
 
     if (isTokenForUserExist) {
-      await this.tokenRepository.update({ userId: user._id, refreshToken: newTokens.refreshToken });
+      await this.tokenRepository.update({ userId: user.id, refreshToken: newTokens.refreshToken });
     } else {
-      await this.tokenRepository.create({ userId: user._id, refreshToken: newTokens.refreshToken });
+      await this.tokenRepository.create({ userId: user.id, refreshToken: newTokens.refreshToken });
     }
 
     return newTokens;

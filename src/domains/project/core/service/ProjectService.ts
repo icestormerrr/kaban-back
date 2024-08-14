@@ -79,7 +79,7 @@ export class ProjectService implements IProjectService {
       !Array.isArray(project.epics) ||
       !project.epics.every(
         (epic: any) =>
-          !!epic && typeof epic === "object" && typeof epic._id === "string" && typeof epic.name === "string",
+          !!epic && typeof epic === "object" && typeof epic.id === "string" && typeof epic.name === "string",
       )
     ) {
       errors.push("Epics are empty or have incorrect format");
@@ -89,7 +89,7 @@ export class ProjectService implements IProjectService {
       !Array.isArray(project.sprints) ||
       !project.sprints.every(
         (sprint: any) =>
-          !!sprint && typeof sprint === "object" && typeof sprint._id === "string" && typeof sprint.name === "string",
+          !!sprint && typeof sprint === "object" && typeof sprint.id === "string" && typeof sprint.name === "string",
       )
     ) {
       errors.push("Sprints are empty or have incorrect format");
@@ -99,7 +99,7 @@ export class ProjectService implements IProjectService {
       !Array.isArray(project.stages) ||
       !project.stages.every(
         (stage: any) =>
-          !!stage && typeof stage === "object" && typeof stage._id === "string" && typeof stage.name === "string",
+          !!stage && typeof stage === "object" && typeof stage.id === "string" && typeof stage.name === "string",
       )
     ) {
       errors.push("Stages are empty or have incorrect format");
@@ -112,7 +112,7 @@ export class ProjectService implements IProjectService {
           (field: any) =>
             !!field &&
             typeof field === "object" &&
-            typeof field._id === "string" &&
+            typeof field.id === "string" &&
             typeof field.name === "string" &&
             typeof field.type === "string",
         ))

@@ -76,7 +76,7 @@ export class TaskService implements ITaskService {
     }
 
     if (typeof task.epicId === "string") {
-      if (!project.epics.map((e) => e._id).includes(task.epicId)) {
+      if (!project.epics.map((e) => e.id).includes(task.epicId)) {
         errors.push("The listed epic do not exist in project");
       }
     } else {
@@ -84,7 +84,7 @@ export class TaskService implements ITaskService {
     }
 
     if (typeof task.sprintId === "string") {
-      if (!project.sprints.map((s) => s._id).includes(task.sprintId)) {
+      if (!project.sprints.map((s) => s.id).includes(task.sprintId)) {
         errors.push("The listed sprint do not exist in project");
       }
     } else {
@@ -92,7 +92,7 @@ export class TaskService implements ITaskService {
     }
 
     if (typeof task.stageId === "string") {
-      if (!project.stages.map((s) => s._id).includes(task.stageId)) {
+      if (!project.stages.map((s) => s.id).includes(task.stageId)) {
         errors.push("The listed stage do not exist in project");
       }
     } else {
@@ -117,11 +117,12 @@ export class TaskService implements ITaskService {
       errors.push("Required field executor is empty");
     }
 
-    if (!!task.creationDatetime) {
-      if (typeof task.creationDatetime !== "number") errors.push("Creation datetime has invalid format");
-    } else {
-      errors.push("Required field Creation datetime is empty");
-    }
+    if (task.id?.length > 0)
+      if (!!task.creationDatetime) {
+        if (typeof task.creationDatetime !== "number") errors.push("Creation datetime has invalid format");
+      } else {
+        errors.push("Required field Creation datetime is empty");
+      }
 
     if (task.planEndDatetime && typeof task.planEndDatetime !== "number") {
       errors.push("Plan end datetime has invalid format");
@@ -132,7 +133,7 @@ export class TaskService implements ITaskService {
       (!Array.isArray(task.messages) ||
         !task.messages.every(
           (message: any) =>
-            typeof message._id === "string" &&
+            typeof message.id === "string" &&
             typeof message.description === "string" &&
             message.description.length > 1 &&
             message.description.length < 512 &&
@@ -145,7 +146,7 @@ export class TaskService implements ITaskService {
 
     if (task.custom && typeof task.custom === "object") {
       for (const prop in task.custom) {
-        if (!project.customFields.find((field) => field._id === prop)) {
+        if (!project.customFields.find((field) => field.id === prop)) {
           errors.push(`Property ${prop} with value ${task.custom[prop]} do not exist in project`);
         }
       }

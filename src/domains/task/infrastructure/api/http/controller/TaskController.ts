@@ -27,7 +27,7 @@ export class TaskController {
       if (typeof projectId !== "string") throw HttpError.BadRequestError("Required parameter projectId was not passed");
 
       const project = await this.projectService.getById(projectId);
-      if (!project) throw HttpError.BadRequestError("Project with this _id was not found");
+      if (!project) throw HttpError.BadRequestError("Project with this id was not found");
 
       const filter = this.createFilterFromRequest(request, project);
 
@@ -48,7 +48,7 @@ export class TaskController {
       "sprintId",
       "executorId",
       "name",
-      ...project.customFields.map((field) => field._id),
+      ...project.customFields.map((field) => field.id),
     ];
 
     for (const prop in request.query) {
@@ -60,10 +60,10 @@ export class TaskController {
 
   async getById(request: Request, response: Response, next: NextFunction) {
     try {
-      const { _id } = request.params;
-      if (!_id) throw HttpError.BadRequestError("Required param _id is missing");
+      const { id } = request.params;
+      if (!id) throw HttpError.BadRequestError("Required param id is missing");
 
-      const task = await this.taskService.getById(_id);
+      const task = await this.taskService.getById(id);
       if (!task) throw HttpError.NotFoundError("Task not found");
 
       return response.json(task);
@@ -106,6 +106,6 @@ export class TaskController {
 const taskController = new TaskController(taskService, projectService, userService);
 export const taskRouter = Router();
 taskRouter.get("/grid", authMiddleware, taskController.getTaskGrid.bind(taskController));
-taskRouter.get("/:_id", authMiddleware, taskController.getById.bind(taskController));
+taskRouter.get("/:id", authMiddleware, taskController.getById.bind(taskController));
 taskRouter.post("/", authMiddleware, taskController.create.bind(taskController));
 taskRouter.put("/", authMiddleware, taskController.update.bind(taskController));
