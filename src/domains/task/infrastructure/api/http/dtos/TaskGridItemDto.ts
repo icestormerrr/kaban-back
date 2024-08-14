@@ -16,6 +16,7 @@ export class TaskGridItemDto {
   readonly status: string;
   readonly creationDatetime: number;
   readonly planEndDatetime?: number;
+  [key: string]: number | string | boolean | null | undefined;
   constructor(task: Task, project: Project, users: User[]) {
     this.id = task.id;
     this.name = task.name;
@@ -29,5 +30,9 @@ export class TaskGridItemDto {
     this.status = task.status;
     this.creationDatetime = task.creationDatetime;
     this.planEndDatetime = task.planEndDatetime;
+    if (project.customFields?.length > 0)
+      for (const field of project.customFields) {
+        this[field.id] = task[field.id] ?? null;
+      }
   }
 }
