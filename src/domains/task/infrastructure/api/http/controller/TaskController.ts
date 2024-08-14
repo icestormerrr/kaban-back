@@ -31,7 +31,7 @@ export class TaskController {
 
       const filter = this.createFilterFromRequest(request, project);
 
-      const tasks = await this.taskService.getAllByFilter(filter);
+      const tasks = await this.taskService.getAllByProject(filter);
       const users = await this.userService.getByIds(project.users);
 
       return response.json(tasks.map((t) => new TaskGridItemDto(t, project, users)));
@@ -52,7 +52,7 @@ export class TaskController {
     ];
 
     for (const prop in request.query) {
-      if (knownProperties.includes(prop)) filter[prop] = request.query[prop];
+      if (knownProperties.includes(prop) && typeof request.query[prop] === "string") filter[prop] = request.query[prop];
     }
 
     return filter;

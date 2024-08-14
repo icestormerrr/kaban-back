@@ -5,19 +5,23 @@ import { Task } from "../../../../core/model/Task";
 import { TaskFilter } from "../../../../core/model/TaskFilter";
 
 export class MongoTaskRepository implements ITaskRepository {
-  async getAllByFilter(filter: TaskFilter) {
-    this.formatFilter(filter);
+  async getAllByProject(filter: TaskFilter) {
+    const mongoFilter = this.createMongoFilter(filter);
 
-    const tasks = await mongoTaskModel.find(filter).exec();
+    const tasks = await mongoTaskModel.find(mongoFilter).exec();
     return tasks.map((mongoTask) => MongoTaskMapper.toModel(mongoTask.toObject()));
   }
 
-  private formatFilter(filter: TaskFilter) {
+  private createMongoFilter(filter: TaskFilter) {
+    const mongoFilter: Record<string, { $regex: RegExp }> = {};
     const searchFields = Object.keys(filter).filter((key) => typeof filter[key] === "string");
+
     for (const field of searchFields) {
       const regexPattern = new RegExp(`.*${filter[field]}.*`, "i");
-      filter[field] = { $regex: regexPattern };
+      mongoFilter[field] = { $regex: regexPattern };
     }
+
+    return mongoFilter;
   }
 
   async getById(id: string) {
