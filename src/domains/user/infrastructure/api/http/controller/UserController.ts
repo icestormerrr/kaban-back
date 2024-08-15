@@ -31,6 +31,7 @@ export class UserController {
 
   async getAll(request: Request, response: Response, next: NextFunction) {
     try {
+      // TODO: rewrite to ProjectUsers collection
       const { usersIds } = request.query;
 
       if (typeof usersIds === "string") {

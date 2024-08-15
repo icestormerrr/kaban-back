@@ -4,10 +4,12 @@ import { IUserService } from "../../../user/core/service/UserService";
 import { IProjectService } from "../../../project/core/service/ProjectService";
 import { TaskStatus } from "../model/TaskStatus";
 import { TaskFilter } from "../model/TaskFilter";
+import { UTC_DAY } from "../../../../common/utils/date";
 
 export interface ITaskService {
   getAllByProject(filter: TaskFilter): Promise<Task[]>;
   getCriticalTasks(): Promise<Task[]>;
+  getTodayCreatedTasks(): Promise<Task[]>;
   getById(id: string): Promise<Task | null>;
   create(task: Task): Promise<Task>;
   update(task: Task): Promise<Task | null>;
@@ -28,6 +30,10 @@ export class TaskService implements ITaskService {
 
   async getCriticalTasks() {
     return await this.taskRepository.getAllByStatus(TaskStatus.Critical);
+  }
+
+  async getTodayCreatedTasks() {
+    return await this.taskRepository.getAllByDateFrom(Date.now() - UTC_DAY);
   }
 
   async getById(id: string) {

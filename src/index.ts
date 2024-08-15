@@ -4,7 +4,7 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 
-import { connectToMongoDb } from "./common/connectMongoDb";
+import { connectToMongoDb } from "./common/mongo/connectMongoDb";
 import { projectRouter } from "./domains/project/infrastructure/api/http/controller/ProjectController";
 import { errorMiddleware } from "./common/http/middlewares/errorMiddleware";
 import { taskRouter } from "./domains/task/infrastructure/api/http/controller/TaskController";

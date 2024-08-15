@@ -81,6 +81,7 @@ export class UserService implements IUserService {
     return await this.userRepository.findById(userId);
   }
 
+  // TODO: rewrite to ProjectUsers collection
   async getByIds(usersIds: string[]) {
     return await this.userRepository.findByIds(usersIds);
   }

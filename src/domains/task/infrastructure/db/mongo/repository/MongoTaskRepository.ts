@@ -39,6 +39,11 @@ export class MongoTaskRepository implements ITaskRepository {
     return tasks.map((mongoTask) => MongoTaskMapper.toModel(mongoTask.toObject()));
   }
 
+  async getAllByDateFrom(date: number) {
+    const tasks = await mongoTaskModel.find({ creationDatetime: { $gt: date } }).exec();
+    return tasks.map((mongoTask) => MongoTaskMapper.toModel(mongoTask.toObject()));
+  }
+
   async create(task: Task) {
     const newTask = await mongoTaskModel.create(MongoTaskMapper.toDb(task));
 
