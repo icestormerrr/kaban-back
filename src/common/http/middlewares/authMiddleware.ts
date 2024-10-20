@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
+/// <reference path="../../types/custom-express.d.ts" />
+
 import { NextFunction, Request, Response } from "express";
 import HttpError from "../exceptions/HttpError";
 import { tokenService } from "../../../domains/token/core/di";
@@ -13,7 +16,7 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
     const user = tokenService.invalidateAccessToken(accessToken);
     if (!user) throw HttpError.UnauthorizedError();
 
-    req.user = user as { id: string; email: string; name: string; } | undefined;
+    req.user = user ?? undefined;
     next();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (err) {

@@ -16,7 +16,7 @@ export class TaskGridItemDto {
   readonly status: string;
   readonly creationDatetime: number;
   readonly planEndDatetime?: number;
-  [key: string]: number | string | boolean | null | undefined;
+  [key: string]: unknown;
   constructor(task: Task, project: Project, users: User[]) {
     this.id = task.id;
     this.name = task.name;
