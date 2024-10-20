@@ -16,6 +16,7 @@ export class MongoUserRepository implements IUserRepository {
   }
 
   async create(user: User) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { _id, ...userWithoutId } = MongoUserMapper.toDb(user);
     const createdUser = await mongoUserModel.create(userWithoutId);
     return MongoUserMapper.toModel(createdUser);

@@ -6,7 +6,7 @@ interface ProjectUser {
 }
 
 interface ProjectUserDocument extends Document, ProjectUser {}
-interface ProjectUserModel extends Model<ProjectUser> {}
+type ProjectUserModel = Model<ProjectUser>
 
 const mongoProjectUserSchema = new Schema({
   userId: { type: Schema.Types.ObjectId, ref: "User", required: true },

@@ -3,7 +3,6 @@ import { NextFunction, Request, Response, Router } from "express";
 import HttpError from "../../../../../../common/http/exceptions/HttpError";
 import { ITaskService } from "../../../../core/service/TaskService";
 import { taskService } from "../../../../core/di";
-import { Task } from "../../../../core/model/Task";
 import { TaskGridItemDto } from "../dtos/TaskGridItemDto";
 import { IProjectService } from "../../../../../project/core/service/ProjectService";
 

@@ -19,8 +19,7 @@ export class UserController {
 
   async getCurrentUser(request: Request, response: Response, next: NextFunction) {
     try {
-      //@ts-ignore
-      const userId = request.user.id;
+      const userId = request.user!.id;
       const user = await this.userService.getById(userId);
       if (!user) throw HttpError.NotFoundError("Current user is not found");
       return response.json(new UserWithoutPasswordDto(user));
@@ -36,8 +35,7 @@ export class UserController {
 
       if (typeof usersIds === "string") {
         const ids = usersIds.split(",").map((id: string) => new Types.ObjectId(id.trim()));
-        //@ts-ignore
-        const users = await this.userService.getByIds(ids);
+        const users = await this.userService.getByIds(ids as unknown as string[]);
         return response.json(users.map((user) => new UserWithoutPasswordDto(user)));
       }
 

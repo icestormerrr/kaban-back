@@ -15,5 +15,5 @@ export interface Task {
   creationDatetime: number;
   planEndDatetime?: number;
   messages: Message[] | null;
-  [key: string]: any;
+  [key: string]: unknown;
 }

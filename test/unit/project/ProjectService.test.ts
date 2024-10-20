@@ -1,9 +1,9 @@
 import {describe, expect, test} from '@jest/globals';
 
-import { Project } from "../../../domains/project/core/model/Project";
-import { IProjectRepository } from "../../../domains/project/core/repository/IProjectRepository";
-import { ProjectService } from "../../../domains/project/core/service/ProjectService";
-import { IUserService } from "../../../domains/user/core/service/UserService";
+import { Project } from "../../../src/domains/project/core/model/Project";
+import { IProjectRepository } from "../../../src/domains/project/core/repository/IProjectRepository";
+import { ProjectService } from "../../../src/domains/project/core/service/ProjectService";
+import { IUserService } from "../../../src/domains/user/core/service/UserService";
 
 
 describe('ProjectService', () => {

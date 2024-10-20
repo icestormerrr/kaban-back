@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 
 import HttpError from "../exceptions/HttpError";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const errorMiddleware = (err: Error, req: Request, res: Response, next: NextFunction) => {
   console.log(err);
   if (err instanceof HttpError) {

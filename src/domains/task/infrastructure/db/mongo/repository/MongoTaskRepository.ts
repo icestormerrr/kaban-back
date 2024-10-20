@@ -51,6 +51,7 @@ export class MongoTaskRepository implements ITaskRepository {
   }
 
   async update(task: Task) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { creationDatetime, ...datelessTask } = task;
 
     const updatedTask = await mongoTaskModel

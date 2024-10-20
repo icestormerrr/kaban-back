@@ -6,8 +6,8 @@ import { User } from "../../../user/core/model/User";
 export interface ITokenService {
   updateTokenForUser(user: User): Promise<{ accessToken: string; refreshToken: string }>;
   delete(refreshToken: string): Promise<void>;
-  invalidateAccessToken(token: string): any | null;
-  invalidateRefreshToken(token: string): any | null;
+  invalidateAccessToken(token: string): User | null;
+  invalidateRefreshToken(token: string): Promise<User | null>;
 }
 
 export class TokenService implements ITokenService {
@@ -30,7 +30,7 @@ export class TokenService implements ITokenService {
     await this.tokenRepository.delete(refreshToken);
   }
 
-  private generateTokens(payload: any) {
+  private generateTokens(payload: string | Buffer | object) {
     const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_SECRET_KEY as Secret, { expiresIn: "15m" });
     const refreshToken = jwt.sign(payload, process.env.JWT_REFRESH_SECRET_KEY as Secret, { expiresIn: "30d" });
     return { accessToken, refreshToken };
@@ -38,7 +38,8 @@ export class TokenService implements ITokenService {
 
   invalidateAccessToken(token: string) {
     try {
-      return jwt.verify(token, process.env.JWT_ACCESS_SECRET_KEY as Secret);
+      return jwt.verify(token, process.env.JWT_ACCESS_SECRET_KEY as Secret) as User;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       return null;
     }
@@ -50,7 +51,8 @@ export class TokenService implements ITokenService {
       if (!userToken) {
         return null;
       }
-      return jwt.verify(token, process.env.JWT_REFRESH_SECRET_KEY as Secret);
+      return jwt.verify(token, process.env.JWT_REFRESH_SECRET_KEY as Secret) as User;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       return null;
     }

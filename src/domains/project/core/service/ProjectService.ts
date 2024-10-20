@@ -1,6 +1,7 @@
 import { IProjectRepository } from "../repository/IProjectRepository";
 import { Project } from "../model/Project";
 import { IUserService } from "../../../user/core/service/UserService";
+import { Unknown } from "../../../../common/types/common";
 
 export interface IProjectService {
   getById(id: string): Promise<Project | null>;
@@ -34,7 +35,7 @@ export class ProjectService implements IProjectService {
     await this.projectRepository.deleteById(id);
   }
 
-  async validate(project: any) {
+  async validate(project: Unknown<Project> | null) {
     const errors: string[] = [];
 
     if (typeof project !== "object" || !project) {
@@ -66,7 +67,7 @@ export class ProjectService implements IProjectService {
       errors.push("Required field author is empty");
     }
 
-    if (Array.isArray(project.users) && project.users.every((userId: any) => typeof userId === "string")) {
+    if (Array.isArray(project.users) && project.users.every((userId: unknown) => typeof userId === "string")) {
       const users = await this.userService.getByIds(project.users);
       if (users.length === 0) {
         errors.push("Project must have at least one member");
@@ -78,8 +79,13 @@ export class ProjectService implements IProjectService {
     if (
       !Array.isArray(project.epics) ||
       !project.epics.every(
-        (epic: any) =>
-          !!epic && typeof epic === "object" && typeof epic.id === "string" && typeof epic.name === "string",
+        (epic: unknown) =>
+          !!epic &&
+          typeof epic === "object" &&
+          "id" in epic &&
+          typeof epic.id === "string" &&
+          "name" in epic &&
+          typeof epic.name === "string",
       )
     ) {
       errors.push("Epics are empty or have incorrect format");
@@ -88,8 +94,13 @@ export class ProjectService implements IProjectService {
     if (
       !Array.isArray(project.sprints) ||
       !project.sprints.every(
-        (sprint: any) =>
-          !!sprint && typeof sprint === "object" && typeof sprint.id === "string" && typeof sprint.name === "string",
+        (sprint: unknown) =>
+          !!sprint &&
+          typeof sprint === "object" &&
+          "id" in sprint &&
+          typeof sprint.id === "string" &&
+          "name" in sprint &&
+          typeof sprint.name === "string",
       )
     ) {
       errors.push("Sprints are empty or have incorrect format");
@@ -98,8 +109,13 @@ export class ProjectService implements IProjectService {
     if (
       !Array.isArray(project.stages) ||
       !project.stages.every(
-        (stage: any) =>
-          !!stage && typeof stage === "object" && typeof stage.id === "string" && typeof stage.name === "string",
+        (stage: unknown) =>
+          !!stage &&
+          typeof stage === "object" &&
+          "id" in stage &&
+          typeof stage.id === "string" &&
+          "name" in stage &&
+          typeof stage.name === "string",
       )
     ) {
       errors.push("Stages are empty or have incorrect format");
@@ -109,11 +125,14 @@ export class ProjectService implements IProjectService {
       !!project.customFields &&
       (!Array.isArray(project.customFields) ||
         !project.customFields.every(
-          (field: any) =>
+          (field: unknown) =>
             !!field &&
             typeof field === "object" &&
+            "id" in field &&
             typeof field.id === "string" &&
+            "name" in field &&
             typeof field.name === "string" &&
+            "type" in field &&
             typeof field.type === "string",
         ))
     ) {

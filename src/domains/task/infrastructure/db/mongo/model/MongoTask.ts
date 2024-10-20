@@ -1,6 +1,5 @@
 import { TaskStatus } from "../../../../core/model/TaskStatus";
 import { Message } from "../../../../../../common/entities/Message";
-import { Primitive } from "../../../../../../common/types/types";
 
 export interface MongoTask {
   _id: string;
@@ -16,5 +15,5 @@ export interface MongoTask {
   creationDatetime: number;
   planEndDatetime?: number;
   messages: Message[] | null;
-  [key: string]: any;
+  [key: string]: unknown;
 }

@@ -5,6 +5,7 @@ import { IProjectService } from "../../../project/core/service/ProjectService";
 import { TaskStatus } from "../model/TaskStatus";
 import { TaskFilter } from "../model/TaskFilter";
 import { UTC_DAY } from "../../../../common/utils/date";
+import { Unknown } from "../../../../common/types/common";
 
 export interface ITaskService {
   getAllByProject(filter: TaskFilter): Promise<Task[]>;
@@ -50,7 +51,7 @@ export class TaskService implements ITaskService {
     await this.taskRepository.deleteById(id);
   }
 
-  async validate(task: any) {
+  async validate(task: Unknown<Task> | null) {
     const errors: string[] = [];
 
     if (typeof task !== "object" || !task) {
@@ -82,7 +83,7 @@ export class TaskService implements ITaskService {
       errors.push("Required field description is empty");
     }
 
-    if (!Object.values(TaskStatus).includes(task.status)) {
+    if (!Object.values(TaskStatus).includes(task.status as TaskStatus)) {
       errors.push("Invalid task status");
     }
 
@@ -128,8 +129,8 @@ export class TaskService implements ITaskService {
       errors.push("Required field executor is empty");
     }
 
-    if (task.id?.length > 0)
-      if (!!task.creationDatetime) {
+    if (typeof task.id ==="string" && task.id.length > 0)
+      if (task.creationDatetime) {
         if (typeof task.creationDatetime !== "number") errors.push("Creation datetime has invalid format");
       } else {
         errors.push("Required field Creation datetime is empty");
@@ -143,12 +144,18 @@ export class TaskService implements ITaskService {
       !!task.messages &&
       (!Array.isArray(task.messages) ||
         !task.messages.every(
-          (message: any) =>
+          (message: unknown) =>
+            message &&
+            typeof message === "object" &&
+            "id" in message &&
             typeof message.id === "string" &&
+            "description" in message &&
             typeof message.description === "string" &&
             message.description.length > 1 &&
             message.description.length < 512 &&
+            "date" in message &&
             typeof message.date === "number" &&
+            "userId" in message &&
             typeof message.userId === "string",
         ))
     ) {
@@ -158,7 +165,7 @@ export class TaskService implements ITaskService {
     if (task.custom && typeof task.custom === "object") {
       for (const prop in task.custom) {
         if (!project.customFields.find((field) => field.id === prop)) {
-          errors.push(`Property ${prop} with value ${task.custom[prop]} do not exist in project`);
+          errors.push(`Property ${prop} do not exist in project`);
         }
       }
     }

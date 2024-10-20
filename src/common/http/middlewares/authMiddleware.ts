@@ -13,9 +13,9 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
     const user = tokenService.invalidateAccessToken(accessToken);
     if (!user) throw HttpError.UnauthorizedError();
 
-    //@ts-ignore
-    req.user = user;
+    req.user = user as { id: string; email: string; name: string; } | undefined;
     next();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (err) {
     return next(HttpError.UnauthorizedError());
   }
