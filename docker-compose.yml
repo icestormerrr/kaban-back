@@ -17,7 +17,7 @@ services:
     container_name: backend_container
     restart: always
     ports:
-      - "4000:4000"
+      - "5000:5000"
     depends_on:
       - mongodb
     env_file:
